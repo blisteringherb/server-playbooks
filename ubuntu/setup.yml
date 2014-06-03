@@ -23,9 +23,15 @@
         - mysql-client
         - php5-mysql
         - php-apc
-        - php5-xmlrpc
-        - php-soap
+        - php5-cgi
+        - php5-cli
+        - php5-curl
+        - php5-dev
         - php5-gd
+        - php5-memcache
+        - php-pear
+        - php-soap
+        - php5-xmlrpc
         - sendmail
         - unzip
         - python-mysqldb
@@ -113,9 +119,8 @@
       with_items:
         - nodejs
 
-    description: Install "bower" and "grunt" node.js package globally.
     - npm: name=bower global=yes
-    - npm: name=grunt global=yes
+    - npm: name=grunt-cli global=yes
 
     ##
     # Redis server.
