@@ -23,3 +23,7 @@
 - name: Drush | Run drush once so it downloads it's dependencies
   action: command drush
   tags: drush
+
+- name: Drush | Install drush-make-local
+  action: drush dl make_local-6.x-1.0
+  tags: drush
