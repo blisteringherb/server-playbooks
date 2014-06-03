@@ -113,6 +113,10 @@
       with_items:
         - nodejs
 
+    description: Install "bower" and "grunt" node.js package globally.
+    - npm: name=bower global=yes
+    - npm: name=grunt global=yes
+
     ##
     # Redis server.
     #
