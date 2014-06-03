@@ -122,40 +122,6 @@
       tags: redis
 
     ##
-    # CSS compiling tools.
-    #
-    - name: CSS | Install rubygems package
-      action: apt pkg=rubygems state=installed
-      tags: css
-
-    - name: CSS | Install SASS
-      action: command gem install sass creates=/usr/local/bin/sass
-      tags: css
-
-    - name: CSS | Install Susy (no more --pre required as it is 1.0 now)
-      action: command gem install susy
-      tags: css
-
-    - name: CSS | Install Compass
-      action: command gem install compass creates=/usr/local/bin/compass
-      tags: css
-
-    - name: CSS | Install Aurora (which will install breakpoint, sass-buttons, respond-to)
-      action: command gem install compass-aurora
-      tags: css
-
-    ##
-    # Dotcloud support
-    #
-    - name: Dotcloud | Python pip for dotcloud
-      action: apt pkg=python-pip state=installed
-      tags: dotcloud
-
-    - name: Dotcloud | Install dotcloud cli
-      action: command pip install dotcloud creates=/usr/local/bin/dotcloud
-      tags: dotcloud
-
-    ##
     # Restart services
     #
     - name: Restart Apache
