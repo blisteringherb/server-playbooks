@@ -54,6 +54,10 @@
       action: template src=templates/etc-php5-conf-d-apc-ini.j2 dest=/etc/php5/conf.d/apc.ini
       tags: common
 
+    - name: Composer | Install PHP Composer
+      action: curl -sS https://getcomposer.org/installer | php
+      tags: common
+
     ##
     # MySQL database setup.
     #
