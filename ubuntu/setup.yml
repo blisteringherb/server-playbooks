@@ -112,7 +112,6 @@
       tags: nodejs
       with_items:
         - nodejs
-        - npm
 
     ##
     # Redis server.
