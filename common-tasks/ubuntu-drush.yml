@@ -26,4 +26,5 @@
 
 - name: Drush | Install drush-make-local
   action: command drush dl make_local-6.x-1.0
+  remote_user: dosomething
   tags: drush
