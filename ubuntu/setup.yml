@@ -18,30 +18,28 @@
       tags: common
       with_items:
         - php5
-        - apache2
-        - mysql-server
-        - mysql-client
         - php5-mysql
-        - php-apc
-        - php5-cgi
-        - php5-cli
         - php5-curl
+        - php5-fpm
+        - php5-cli
+        - php5-cgi
         - php5-dev
+        - php-pear
         - php5-gd
         - php5-memcache
-        - php-pear
+        - php-apc
+        - php5-gd
         - php-soap
         - php5-xmlrpc
+        - apache2
+        - libapache2-mod-php5
+        - mysql-server
+        - mysql-client
         - sendmail
         - unzip
         - python-mysqldb
-
-    ##
-    # Message of the day explaining server is under control of Ansible.
-    #
-    - name: General | Message of the day explaining server is under Ansible control.
-      action: copy src=files/etc-update-motd-d-95-ansible dest=/etc/update-motd.d/95-ansible mode=755
-      tags: common
+        - git
+        - glusterfs-client
 
     ##
     # PHP Setup.
@@ -55,7 +53,7 @@
       tags: common
 
     - name: Composer | Install PHP Composer
-      action: action: shell curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
+      action: shell curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
       tags: common
 
     ##
@@ -75,7 +73,11 @@
       tags: common
 
     - name: Apache | Configuration file for our site
-      action: template src=templates/etc-apache2-sites-available-devserver.j2 dest=/etc/apache2/sites-available/devserver
+      action: template src=templates/etc-apache2-sites-available-dosomething.j2 dest=/etc/apache2/sites-available/dosomething
+      tags: common
+
+    - name: Apache | SSL Configuration file for our site
+      action: template src=templates/etc-apache2-sites-available-dosomething-ssl.j2 dest=/etc/apache2/sites-available/dosomething-ssl
       tags: common
 
     - name: Apache | Disable the default site
@@ -83,7 +85,7 @@
       tags: common
 
     - name: Apache | Enable our new site
-      action: command a2ensite devserver
+      action: command a2ensite dosomething
       tags: common
 
     ##
