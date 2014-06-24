@@ -55,7 +55,7 @@
       tags: common
 
     - name: Composer | Install PHP Composer
-      action: action: shell curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
+      action: shell curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
       tags: common
 
     ##
