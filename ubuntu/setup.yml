@@ -43,7 +43,7 @@
 
     # Add the user 'dosomething' with a bash shell with sudo access
     - name: Create dosomething user
-      command: useradd -n dosomething creates=/home/dosomething
+      user: name=dosomething shell=/bin/bash generate_ssh_key=yes
       sudo: true
 
     - name: Setup | set user password
@@ -111,6 +111,10 @@
     - name: Apache | Enable our new site
       action: command a2ensite dosomething
       tags: common
+
+    # Create docroot
+    - name: Creates directory
+      file: path=/var/www/beta.dosomething.org state=directory  group=dosomething owner=dosomething
 
     ##
     # FTP server setup.
