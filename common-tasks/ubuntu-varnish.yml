@@ -1,0 +1,19 @@
+---
+##
+# Varnish install, a reverse proxy.
+#
+# Ubuntu only due to using apt.
+#
+- name: Varnish | Install Varnish
+  apt: name=varnish state=latest
+  tags: varnish
+
+- name: Varnish Config | Add Varnish config files
+  action: template src=templates/varnish/{{ item }}.vcl.j2 dest=/etc/varnish/{{ item }}.vcl.j2
+  tags: varnish
+  with_items:
+    - drupal
+    - geoip
+    - pools
+    - prod
+    - qa
