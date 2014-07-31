@@ -1,0 +1,52 @@
+# This is a basic VCL configuration file for varnish.  See the vcl(7)
+# man page for details on VCL syntax and semantics.
+#
+# Default backend definition.  Set this to point to your content
+# server.
+#
+
+import std;
+
+acl internal {
+  "192.168.1.0"/24;
+  "10.11.12.0"/24;
+  "10.241.0.0"/24;
+  "127.0.0.1";
+}
+
+backend legacy {
+  .host = "98.129.111.166";
+  .port = "80";
+  .probe = {
+    .url = "/sites/all/themes/doit/css/images/ds-logo.png";
+    .interval = 15s;
+    .timeout = 2s;
+    .window = 5;
+    .threshold = 3;
+  }
+}
+
+backend beta {
+  .host = "98.129.111.169";
+  .port = "80";
+  .probe = {
+    .url = "/robots.txt";
+    .interval = 15s;
+    .timeout = 5s;
+    .window = 15;
+    .threshold = 3;
+  }
+}
+
+sub vcl_recv {
+  
+  # Explicit switch to new pool
+  if (req.http.host ~ "qa-beta.dosomething.org") {
+    std.log("NEW POOL: Explicit");
+    set req.backend = beta;
+    return (pass);
+  }
+}
+
+include "/etc/varnish/pools.vcl";
+include "/etc/varnish/drupal.vcl";
