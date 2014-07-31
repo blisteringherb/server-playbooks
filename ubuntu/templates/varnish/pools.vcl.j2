@@ -1,0 +1,112 @@
+#######################################
+####### DS POOL SWITCHING RULES #######
+
+# Start with a default to the old pool.
+# 
+# If a path matches something we specifically aim at the old pool, 
+# `return (pass)` early. (This passes to the legacy Varnish instance,
+# which does its own caching.)
+#
+# If a path matches the beta pool, set the pool and continue. 
+#
+# If we get through the path config and are still defaulting to the 
+# legacy pool, `return (pass)` so we're not double-caching on top of
+# the downstream Varnish instance.
+
+sub vcl_recv {
+  
+  # Default to old pool
+  set req.backend = legacy;
+  
+  # /files to old pool
+  if (req.url ~ "^/files") {
+    return (pass);
+  }
+  
+  # REST user service to old pool
+  if (req.url ~ "/rest/user") {
+    return (pass);
+  }
+  
+  # Beta DS SMS paths
+  if (req.url ~ "^/dosomething_sms") {
+    set req.backend = beta;
+  }
+
+  # Home page to new pool
+  if (req.url ~ "^/$") {
+    set req.backend = beta;
+  }
+
+  # Beta DS SMS paths
+  if (req.url ~ "^/dosomething_sms") {
+    set req.backend = beta;
+  }
+
+  # User auth to new pool
+  if (req.url ~ "/user") {
+    set req.backend = beta;
+  }
+
+  # Admin paths to new pool
+  if (req.url ~ "/admin" || req.url ~ "^/reportback"
+    || req.url ~ "^/entityreference"
+  ) {
+    set req.backend = beta;
+  }
+
+  # Campaigns and content to new pool
+  if (req.url ~ "/campaigns" || req.url ~ "/content"
+  ) {
+    set req.backend = beta;
+  }
+
+  # Install profile paths to new pool
+  if (req.url ~ "profiles/dosomething"
+  ) {
+    set req.backend = beta;
+  }
+
+  # Specific nodes to new pool: Global nav elements
+  if (req.url ~ "node/538" || req.url ~ "node/872"
+    || req.url ~ "node/516" || req.url ~ "node/518" || req.url ~ "node/1052"
+    || req.url ~ "node/532" || req.url ~ "node/539"
+    || req.url ~ "node/538" || req.url ~ "node/556" || req.url ~ "node/565"
+    || req.url ~ "node/940" || req.url ~ "node/329" || req.url ~ "node/540"
+    || req.url ~ "node/523" || req.url ~ "node/1141"
+  ) {
+    set req.backend = beta;
+  }
+
+  # Specific nodes to new pool: Campaigns
+  if (req.url ~ "node/362" || req.url ~ "/pbj" || req.url ~ "node/955"
+    || req.url ~ "node/850"
+    || req.url ~ "node/15" || req.url ~ "node/18" || req.url ~ "node/31"
+    || req.url ~ "node/38" || req.url ~ "node/43" || req.url ~ "node/47"
+    || req.url ~ "node/48" || req.url ~ "node/50" || req.url ~ "node/52"
+    || req.url ~ "node/84"
+  ) {
+    set req.backend = beta;
+  }
+
+  # Static content
+  if (req.url ~ "^/about" || req.url ~ "^/content") {
+    set req.backend = beta;
+  }
+
+  # New app files dir
+  if (req.url ~ "sites/default/files") {
+    set req.backend = beta;
+  }
+
+  # Search
+  if (req.url ~ "/search") {
+    set req.backend = beta;
+  }
+  
+  # Send off to legacy if that's where we're headed.
+  if (req.backend == legacy) {
+    std.log("OLD POOL: Default fall-through");
+    return (pass);
+  }
+}
