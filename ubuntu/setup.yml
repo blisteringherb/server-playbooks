@@ -47,7 +47,7 @@
       sudo: true
 
     - name: Setup | set user password
-      shell: usermod -p $(echo '{{ createpassword }}' | openssl passwd -1 -stdin) dosomething
+      shell: usermod -p $(echo "{{ createpassword }}" | openssl passwd -1 -stdin) dosomething
       sudo: true
 
     - name: Setup | authorized key upload
@@ -67,7 +67,7 @@
 
     ##
     # PHP Setup.
-    ##
+    #
     - name: PHP | Configuration file, php.ini
       action: template src=templates/etc-php5-apache2-php-ini.j2 dest=/etc/php5/apache2/php.ini
       tags: common
