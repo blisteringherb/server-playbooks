@@ -1,0 +1,30 @@
+---
+##
+# Varnish install, a reverse proxy.
+#
+# Ubuntu only due to using apt.
+# Loading the appropriate Varnish config via varnishadm is still necessary
+#
+- name: Varnish | Install Varnish
+  apt: name={{ item }}
+  apt_key: url=https://repo.varnish-cache.org/ubuntu/GPG-key.txt state=present
+  apt_repository: repo='deb https://repo.varnish-cache.org/ubuntu/ precise varnish-3.0' state=present
+  with_items:
+    - apt-transport-https
+    - varnish
+  tags: varnish
+
+- name: Varnish Config | Get Varnish Config Files
+  git: repo=ssh://git@github.com/dosomething/ServerConfig.git dest=/opt
+
+- name: Varnish Config | Symlink Default Varnish config file
+  file: src=/opt/ServerConfig/{{ environment }}.vcl dest=/etc/varnish/default.vcl state=link force=yes
+  tags: varnish
+
+- name: Varnish Config | Symlink Additional Varnish config files
+  file: src=/opt/ServerConfig/{{ item }}.vcl dest=/etc/varnish/{{ item }} state=link
+  with_items:
+    - drupal
+    - geoip
+    - pools
+  tags: varnish

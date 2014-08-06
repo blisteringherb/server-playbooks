@@ -1,0 +1,16 @@
+##
+# Ansible playbook for spinning up and deploying a new Varnish server.
+#
+---
+- hosts: varnish
+  user: root
+
+  vars_files:
+    - settings.yml
+
+  tasks:
+
+    ##
+    # Spin up new Varnish server in OpenStack
+    #
+    # Add the user 'dosomething' with a bash shell with sudo access
