@@ -1,0 +1,22 @@
+# Settings that are applied to the templates. This file should be copied to
+# the base folder of the play and renamed settings.yml, then modified to suit
+# your needs.
+
+---
+# Hostname is important as we need to delete an anonymous MySQL
+# user that is created with this name, make sure you match this
+# up with the output of the command 'hostname' on the server.
+servers:
+  - varnish1
+  - varnish2
+
+flavor: ds.4gb-30gb
+
+type: varnish
+
+tenant: beta.dosomething.org
+
+groups:
+  - default
+  - varnish
+

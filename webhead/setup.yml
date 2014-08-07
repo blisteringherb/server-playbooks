@@ -110,8 +110,8 @@
     ##
     # Varnish install, a reverse proxy
     #
-    - include: ../varnish/varnish-setup.yml
-      when: {{ environment }}
+    # - include: ../varnish/varnish-setup.yml
+    #   when: {{ environment }}
 
     ##
     # node.js installation (latest stable instead of Ubuntu's out-of-date one)

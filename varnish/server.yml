@@ -6,11 +6,12 @@
   user: root
 
   vars_files:
-    - settings.yml
+    - varnish-settings.yml
 
   tasks:
 
     ##
     # Spin up new Varnish server in OpenStack
     #
-    # Add the user 'dosomething' with a bash shell with sudo access
+    - include: ../nova/create-server.yml
+    - include: tasks/varnish-setup.yml
