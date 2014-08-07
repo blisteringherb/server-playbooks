@@ -1,5 +1,5 @@
 ---
-- hosts: mongo
+- hosts: localhost
   user: root
 
   vars_files:
@@ -7,4 +7,9 @@
 
   roles:
     - nova
+
+- hosts: mongo
+  user: root
+
+  roles:
     - mongo

@@ -11,9 +11,7 @@ type: mongo
 
 tenant: beta.dosomething.org
 
-groups:
-  - default
-  - varnish
+security_groups: default
 
 environment: production
 tier: production
