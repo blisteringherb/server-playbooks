@@ -22,6 +22,10 @@
     wait_for: 500
     meta:
       type: {{ type }}
+      environment: {{ environment }}
+      tier: {{ tier }}
+      app: {{ app }}
+        when: app is defined
   register: nova
   tags: nova
 

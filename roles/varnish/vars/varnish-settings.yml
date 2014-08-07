@@ -15,3 +15,5 @@ groups:
   - default
   - varnish
 
+environment: production
+tier: production

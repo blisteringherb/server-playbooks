@@ -54,3 +54,7 @@ groups:
   - default
   - www
 
+environment: production
+tier: production
+app: beta
+
