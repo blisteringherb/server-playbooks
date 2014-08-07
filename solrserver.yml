@@ -1,0 +1,10 @@
+---
+- hosts: solr
+  user: root
+
+  vars_files:
+    - roles/solr/vars/solr-settings.yml
+
+  roles:
+    - nova
+    - webserver

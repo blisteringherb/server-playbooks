@@ -1,0 +1,21 @@
+##
+# Ansible playbook for setting up a LAMP development server on Ubuntu 12.04.
+#
+
+---
+- hosts: webservers
+  user: root
+
+  vars_files:
+    - settings.yml
+
+  tasks:
+    ##
+    # Apt package installation of required software.
+    #
+    - name: General | Install required packages.
+      apt: name={{ item }} state=l  atest
+      tags: common
+      with_items:
+        - tomcat7
+        - tomcat7-admin

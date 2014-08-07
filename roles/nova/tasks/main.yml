@@ -1,5 +1,8 @@
 ##
-# Ansible playbook for setting up new servers in openstack
+# Ansible playbook for setting up new servers in openstack.
+# Variables for creating instances should be defined by the
+# role calling these tasks.  Environment vars should be defined
+# in the controller node.
 #
 ---
 - name: Create Instances
@@ -10,7 +13,7 @@
     auth_url: "{{ ansible_env.OS_AUTH_URL }}"
     flavor_id: {{ flavor }}
     image_id: cb976ddc-c7e6-493d-85a6-d3364d3e411d
-    key_name: search
+    key_name: "{{ ansible_env.OS_KEY_NAME }}"
     login_username: "{{ ansible_env.OS_USERNAME }}"
     login_password: "{{ ansible_env.OS_PASSWORD }}"
     login_tenant_name: {{ tenant }}
@@ -20,6 +23,7 @@
     meta:
       type: {{ type }}
   register: nova
+  tags: nova
 
 - name: Display what we get back from nova
   debug: var=nova
@@ -30,15 +34,12 @@
             ansible_ssh_private_key_file=~/.ssh/search.pem
             groups={{ nova.metadata.info.type }}
   with_items: nova.private_ip
+  tags: nova
 
 - name: wait for instance to boot
   wait_for:
     host: "{{ item }}"
     port: 22
   with_items: nova.private_ip
-
-##
-# Create dosomething user.
-#
-- include: ../common-tasks/dosomething-user.yml
+  tags: nova
 

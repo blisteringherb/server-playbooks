@@ -1,0 +1,10 @@
+---
+- hosts: mongo
+  user: root
+
+  vars_files:
+    - roles/mongo/vars/mongo-settings.yml
+
+  roles:
+    - nova
+    - mongo

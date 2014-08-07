@@ -1,0 +1,14 @@
+##
+# Ansible playbook for setting up a LAMP development server on Ubuntu 12.04.
+#
+---
+##
+# Apt package installation of required software.
+#
+- name: General | Install required packages.
+  apt: name={{ item }} state=latest
+  apt_key: keyserver=hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+  apt_repository: repo='deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' state=present
+  tags: common
+  with_items:
+    - mongodb-org
