@@ -5,7 +5,8 @@
 ##
 # Apt package installation of required software.
 #
-- apt_key: keyserver=hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+
+- apt_key: keyserver=hkp://keyserver.ubuntu.com:80 id=7F0CEB10
 - apt_repository: repo='deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' state=present
 
 - name: General | Install required packages.
@@ -15,5 +16,5 @@
     - mongodb-org
 
 - name: Start mongodb
-  service: name:mongod state=started
+  service: name=mongod state=started
   tags: mongo

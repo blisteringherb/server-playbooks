@@ -14,7 +14,7 @@
     # Apt package installation of required software.
     #
     - name: General | Install required packages.
-      apt: name={{ item }} state=l  atest
+      apt: name={{ item }} state=latest
       tags: common
       with_items:
         - tomcat7

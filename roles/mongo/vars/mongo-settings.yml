@@ -13,6 +13,5 @@ tenant: beta.dosomething.org
 
 security_groups: default
 
-environment: production
 tier: production
 
