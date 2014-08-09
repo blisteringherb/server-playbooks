@@ -6,12 +6,9 @@
 # Add the user 'dosomething' with a bash shell with sudo access
 
 - name: Create dosomething user
-  user: name=dosomething shell=/bin/bash generate_ssh_key=yes
+  user: name=dosomething shell=/bin/bash generate_ssh_key=yes password={{ createpassword }}
   sudo: true
-
-- name: Setup | set user password
-  shell: usermod -p $(echo "{{ ansible_env.DS_PASSWORD }}" | openssl passwd -1 -stdin) dosomething
-  sudo: true
+  tags: user
 
 - name: Setup | authorized key upload
   authorized_key: user=dosomething
@@ -19,6 +16,7 @@
     path='/home/dosomething/.ssh/authorized_keys'
     manage_dir=no
   sudo: true
+  tags: user
 
 - name: Sudoers | update sudoers file and validate
   lineinfile: "dest=/etc/sudoers
@@ -27,3 +25,4 @@
     regexp='dosomething ALL=(ALL) NOPASSWD: ALL'
     state=present"
   sudo: true
+  tags: user

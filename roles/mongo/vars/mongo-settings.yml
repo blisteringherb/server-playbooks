@@ -2,8 +2,7 @@
 
 ---
 servers:
-  - mongo1
-  - mongo2
+  - mongo3
 
 flavor: ds.4gb-80gb
 
@@ -11,7 +10,9 @@ type: mongo
 
 tenant: beta.dosomething.org
 
-security_groups: default
+security_groups: default,mongodb
 
 tier: production
+
+replSet: activity
 
