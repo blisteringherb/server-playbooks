@@ -1,0 +1,9 @@
+---
+##
+# Install composer and other packages
+#
+# Ubuntu only due to using apt.
+#
+- name: Composer | Install PHP Composer
+  action: curl -sS https://getcomposer.org/installer | php
+  tags: common

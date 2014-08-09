@@ -1,0 +1,28 @@
+---
+##
+# Create new dosomething user
+#
+#
+# Add the user 'dosomething' with a bash shell with sudo access
+
+- name: Create dosomething user
+  user: name=dosomething shell=/bin/bash generate_ssh_key=yes password={{ createpassword }}
+  sudo: true
+  tags: user
+
+- name: Setup | authorized key upload
+  authorized_key: user=dosomething
+    key="{{ lookup('template', 'templates/authorized-keys.j2') }}"
+    path='/home/dosomething/.ssh/authorized_keys'
+    manage_dir=no
+  sudo: true
+  tags: user
+
+- name: Sudoers | update sudoers file and validate
+  lineinfile: "dest=/etc/sudoers
+    insertafter=EOF
+    line='dosomething ALL=(ALL) NOPASSWD: ALL'
+    regexp='dosomething ALL=(ALL) NOPASSWD: ALL'
+    state=present"
+  sudo: true
+  tags: user

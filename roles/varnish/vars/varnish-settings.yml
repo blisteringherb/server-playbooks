@@ -1,0 +1,19 @@
+# Settings that are applied to new Varnish servers spun up in OpenStack.
+
+---
+servers:
+  - varnish1
+  - varnish2
+
+flavor: ds.4gb-30gb
+
+type: varnish
+
+tenant: beta.dosomething.org
+
+groups:
+  - default
+  - varnish
+
+environment: production
+tier: production
