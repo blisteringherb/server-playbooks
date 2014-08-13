@@ -3,7 +3,12 @@ Server Playbooks
 
 A collection of Ansible playbooks for use in setting up various servers.
 Playbooks are a series of configuration steps and specifications for how the
-server should be configured.
+server should be configured.  These playbooks require an OpenStack cloud environment
+and the python nova client to run.
+
+Information on installing novaclient:
+
+http://docs.openstack.org/user-guide/content/install_clients.html
 
 Executing the playbooks
 ---------------------------
@@ -19,7 +24,8 @@ Generally, if you're looking for a quick time-saver for a one-time build of a
 server, then you should set up Ansible and execute the playbook on the target
 server. If you're a more serious server administrator who wants to maintain
 clusters of machines, you should setup Ansible on a separate controller machine
-or your personal machine.
+or your personal machine.  These playbooks are written to be run from a controller
+node.
 
 You may refer to the setup guide on the Ansible homepage, however here are the
 steps for setting it up on Ubuntu and immediately configuring it to use
@@ -44,43 +50,34 @@ You should see:
 
 ### Run the play
 
-The plays are organized into directories, so for example, __ubuntu-12.04-lamp-dev__
-contains all the settings and configuration for the Ubuntu 12.04 LAMP Dev server
-build.
+The tasks for each of the plays are organized into roles.  Each playbook is designed
+to spin up and configure new server or set of servers as defined by its respective
+settings file.
 
-You must copy the __vars/default-settings.yml__ file to the base folder of the
-play, and then edit it with your specific requirements. It's really easy to
-understand and contains all the configuration that will be customized from the
-default Ubuntu package setting.
+    ansible-playbook mongoserver.yml --extra-vars createpassword=password
 
-    cd ubuntu-12.04-lamp-dev
-    cp ./vars/settings-default.yml ./settings.yml
+Common tasks like setting up a new dosomething user are defined in the common tasks
+role.
 
-You have some options when executing a play. For example, you may want a LAMP
-server but not drush or an ftp server. The parts of the play that setup these
-optional packages are tagged as such.
+Note: At the moment, Ansible doesn't have support for the --num-instances param that's
+available in novaclient.  The workaround for this is to create a new host for each
+new server you want to create in the os_api host group.  This is done automatically
+for you by defining hostnames for each of the new nodes under the servers variable in:
 
-By executing the following, it will setup only the commonly used components:
+roles/[role-name]/vars/[role-name]-settings.yml
 
-    ansible-playbook -c local --tags="common" ./setup.yml
-
-You can add drush and ftp by doing:
-
-    ansible-playbook -c local --tags="common,drush,ftp" ./setup.yml
-
-Conventions used in playbooks
+Extras
 ---------------------------
 
-- The setup.yml file contains the main sequence of actions and tasks.
-- When a configuration file is introduced by the playbook, i.e. isn't
-  a pre-existing one, it's found in the __files__ subdirectory and is transferred
-  using the 'copy' action.
-- Files that already exist on the server, that we are modifying, are found
-  in __templates__ and have Jinja2-style variable substitution. They are
-  transferred using Ansible's 'template' action.
-- Every value in a configuration file that is modified from the default will
-  contain a variable substitution, so you know that looking in the
-  __vars/settings-default.yml__ file will give you a complete overview of all the
-  configuration that is modified from the server package default.
+To leverage dynamic inventory for nova:
+
+1. Download https://github.com/blisteringherb/ansible-plugins
+2. Make a backup of your current hosts file at /etc/ansible/hosts
+3. Symlink the inventory/nova.py file to /etc/ansible/hosts and make sure it's executable
+4. Symlink the inventory/nova.ini file to /etc/ansibile/nova.ini
+5. Make the necessary changes to nova.ini and/or add the appropriate settings to
+   your environment vars.
+6. Run python /etc/ansible/hosts --list to check to make sure the dynamic inventory
+   works and is getting all of the hosts from the tenant you specified.
 
 [1]: http://ansible.github.com/ "Ansible"
