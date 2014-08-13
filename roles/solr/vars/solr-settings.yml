@@ -1,0 +1,16 @@
+# Settings that are applied to new Mongo servers spun up in OpenStack.
+
+---
+servers:
+  - solr
+
+flavor: ds.4gb-30gb
+
+type: solr
+
+tenant: search
+
+security_groups: default
+
+tier: production
+
