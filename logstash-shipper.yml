@@ -1,0 +1,10 @@
+##
+# Ansible playbook for setting a logstash shipper on existing servers.
+#
+
+---
+- hosts: shippers
+  user: root
+
+  roles:
+    - logstash-shipper
