@@ -25,13 +25,6 @@
 - name: Enable logstash-shipper init
   command: update-rc.d logstash-shipper defaults
 
-# - name: Get FQDN of server
-#   command: hostname -f
-#   register: fqdn
-
-# - name: Update logs to use FQDN for logstash
-#   lineinfile: dest=/etc/hosts regexp='^127\.0\.0\.1' insertbefore="localhost" line="{{ fqdn }} " owner=root group=root mode=0644
-
 - name: Start logstash-shipper
   service: name=logstash-shipper state=started
 
