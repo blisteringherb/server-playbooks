@@ -13,8 +13,12 @@
     - /opt
     - /var/log
 
-- name: Unarchive logstash
-  unarchive: src=/root/logstash-1.4.2.tar.gz dest=/opt/logstash
+- name: Install Java
+  apt: name=openjdk-7-jdk state=present
+
+# - name: Unarchive logstash
+#   unarchive: src=/root/logstash-1.4.2.tar.gz dest=/opt/logstash
+#   run_once: true
 
 - name: Add shipper.conf
   template: src=shipper-conf.j2 dest=/etc/logstash/shipper.conf owner=root group=root mode=0645
@@ -26,5 +30,5 @@
   command: update-rc.d logstash-shipper defaults
 
 - name: Start logstash-shipper
-  service: name=logstash-shipper state=started
+  service: name=logstash-shipper state=restarted
 

@@ -2,8 +2,23 @@ input {
   file {
     type => "syslog"
     start_position => "beginning"
-    path => ["/var/log/auth.log", "/var/log/syslog"]
+    path => ["/var/log/auth.log", "/var/log/syslog", "/var/log/*", "/var/log/*/*"]
     exclude => ["*.gz", "shipper.log"]
+  }
+}
+filter {
+  if [type] == "syslog" {
+    grok {
+      match => { "message" => "%{SYSLOGTIMESTAMP:syslog_timestamp} %{SYSLOGHOST:syslog_hostname} %{DATA:syslog_program}(?:\[%{POSINT:syslog_pid}\])?: %{GREEDYDATA:syslog_message}" }
+      add_tag => [ "syslog", "grokked" ]
+      add_field => [ "received_at", "%{@timestamp}" ]
+      add_field => [ "received_from", "%{host}" ]
+    }
+    if ("_grokparsefailure" in [tags]) {
+            mutate {
+            add_tag => [ "error" ]
+            }
+    }
   }
 }
 output {
