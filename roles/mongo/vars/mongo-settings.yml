@@ -1,18 +1,30 @@
 # Settings that are applied to new Mongo servers spun up in OpenStack.
 
 ---
+# Add names for each of your mongo servers here.  Generally you'll add 3 for a
+# 3 member replica set.
+
 servers:
-  - mongo3
+  - mongo4
+  - mongo5
+  - mongo6
 
-flavor: ds.4gb-80gb
+# This is the flavor id or flavor name for your new boxes.  Make sure the tenant
+# has sufficient resources to accomodate each of your new boxes.
+flavor: 2
 
-type: mongo
+# This image ID is for the Ubuntu 14.04 LTS cloud image.  To use a different image
+# run nova image-list to get its id
+image_id: c12e0e1e-0deb-4b63-be9e-2c7b98617cbe
 
-tenant: beta.dosomething.org
-
+# Add any security groups here.  Note that nova will fail if the security groups
+# don't already exist in the target tenant.
 security_groups: default,mongodb
 
+# Metadata for how the box will be used.
 tier: production
+type: mongo
 
+# Name for the replica set
 replSet: activity
 
