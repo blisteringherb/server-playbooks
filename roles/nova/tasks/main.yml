@@ -11,11 +11,11 @@
     name: "{{ inventory_hostname }}"
     auth_url: "{{ ansible_env.OS_AUTH_URL }}"
     flavor_id: "{{ flavor }}"
-    image_id: cb976ddc-c7e6-493d-85a6-d3364d3e411d
+    image_id: "{{ image_id }}"
     key_name: "{{ ansible_env.OS_KEY_NAME }}"
     login_username: "{{ ansible_env.OS_USERNAME }}"
     login_password: "{{ ansible_env.OS_PASSWORD }}"
-    login_tenant_name: "{{ tenant }}"
+    login_tenant_name: "{{ ansible_env.OS_TENANT_NAME }}"
     security_groups: "{{ security_groups }}"
     wait_for: 60
     meta:
