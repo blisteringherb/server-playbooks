@@ -3,6 +3,8 @@
 servers:
   - varnish3
 
+# This is the flavor id or flavor name for your new boxes.  Make sure the tenant
+# has sufficient resources to accomodate each of your new boxes.
 flavor: ds.4gb-30gb
 
 type: varnish
@@ -13,7 +15,7 @@ tenant: beta.dosomething.org
 # run nova image-list to get its id
 image_id: c12e0e1e-0deb-4b63-be9e-2c7b98617cbe
 
-groups: default,varnish
+security_groups: default,varnish
 
 environment: production
 tier: production
