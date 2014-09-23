@@ -1,9 +1,7 @@
 # Settings that are applied to new Varnish servers spun up in OpenStack.
-
 ---
 servers:
-  - varnish1
-  - varnish2
+  - varnish3
 
 flavor: ds.4gb-30gb
 
@@ -11,9 +9,11 @@ type: varnish
 
 tenant: beta.dosomething.org
 
-groups:
-  - default
-  - varnish
+# This image ID is for the Ubuntu 14.04 LTS cloud image.  To use a different image
+# run nova image-list to get its id
+image_id: c12e0e1e-0deb-4b63-be9e-2c7b98617cbe
+
+groups: default,varnish
 
 environment: production
 tier: production
