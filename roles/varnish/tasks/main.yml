@@ -5,10 +5,13 @@
 # Ubuntu only due to using apt.
 # Loading the appropriate Varnish config via varnishadm is still necessary
 #
+
+- apt_key: url=https://repo.varnish-cache.org/ubuntu/GPG-key.txt state=present
+
+- apt_repository: repo='deb https://repo.varnish-cache.org/ubuntu/ precise varnish-3.0' state=present
+
 - name: Varnish | Install Varnish
   apt: name={{ item }}
-  apt_key: url=https://repo.varnish-cache.org/ubuntu/GPG-key.txt state=present
-  apt_repository: repo='deb https://repo.varnish-cache.org/ubuntu/ precise varnish-3.0' state=present
   with_items:
     - apt-transport-https
     - varnish
