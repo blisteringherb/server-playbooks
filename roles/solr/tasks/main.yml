@@ -2,16 +2,9 @@
 # Ansible playbook for setting up a LAMP development server on Ubuntu 12.04.
 #
 ---
-- hosts: solr
-  user: ubuntu
-
-  tasks:
-    ##
-    # Apt package installation of required software.
-    #
-    - name: General | Install required packages.
-      apt: name={{ item }} state=latest
-      tags: common
-      with_items:
-        - tomcat7
-        - tomcat7-admin
+- name: General | Install required packages.
+  apt: name={{ item }} state=latest
+  tags: common
+  with_items:
+    - tomcat7
+    - tomcat7-admin
