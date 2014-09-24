@@ -11,7 +11,7 @@
 - apt_repository: repo='deb https://repo.varnish-cache.org/ubuntu/ precise varnish-3.0' state=present
 
 - name: Varnish | Install Varnish
-  apt: name={{ item }}
+  apt: name={{ item }} update_cache=yes
   with_items:
     - apt-transport-https
     - varnish
@@ -31,3 +31,4 @@
     - geoip
     - pools
   tags: varnish
+
