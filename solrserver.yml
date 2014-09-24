@@ -1,10 +1,34 @@
 ---
-- hosts: solr
+- name: add some hosts
+  hosts: localhost
+  vars_files:
+  - roles/solr/vars/solr-settings.yml
+
+  tasks:
+    - add_host:
+        name: "{{ item }}"
+        ansible_ssh_host: 127.0.0.1
+        groups: os_api
+        ansible_connection: local
+        oshost: "{{ item }}"
+      with_items: servers
+    - debug: var=groups
+
+- name: Spin up new servers
+  hosts: os_api
   user: root
+  serial: 1
 
   vars_files:
     - roles/solr/vars/solr-settings.yml
-
   roles:
     - nova
-    - webserver
+
+- name: Add solr to new servers
+  hosts: solr
+  user: ubuntu
+  sudo: yes
+
+  roles:
+    - solr
+    - common-tasks

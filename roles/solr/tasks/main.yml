@@ -1,13 +1,9 @@
 ##
 # Ansible playbook for setting up a LAMP development server on Ubuntu 12.04.
 #
-
 ---
-- hosts: webservers
-  user: root
-
-  vars_files:
-    - settings.yml
+- hosts: solr
+  user: ubuntu
 
   tasks:
     ##

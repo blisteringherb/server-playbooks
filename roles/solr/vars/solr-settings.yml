@@ -2,15 +2,19 @@
 
 ---
 servers:
-  - solr
+  - solr.prod
 
-flavor: ds.4gb-30gb
+flavor: 2
+
+# This image ID is for the Ubuntu 14.04 LTS cloud image.  To use a different image
+# run nova image-list to get its id
+image_id: c12e0e1e-0deb-4b63-be9e-2c7b98617cbe
 
 type: solr
 
 tenant: search
 
-security_groups: default
+security_groups: default,Solr,Public
 
 tier: production
 
