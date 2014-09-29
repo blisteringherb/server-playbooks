@@ -31,8 +31,10 @@
   hosts: varnish
   user: ubuntu
   sudo: yes
+  vars_files:
+    - roles/varnish/vars/varnish-settings.yml
 
   roles:
-    - varnish
     - common-tasks
+    - varnish
 

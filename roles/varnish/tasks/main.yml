@@ -13,19 +13,20 @@
 - name: Varnish | Install Varnish
   apt: name={{ item }} update_cache=yes
   with_items:
+    - git
     - apt-transport-https
     - varnish
   tags: varnish
 
 - name: Varnish Config | Get Varnish Config Files
-  git: repo=ssh://git@github.com/dosomething/ServerConfig.git dest=/opt
+  git: repo=ssh://git@github.com/dosomething/ServerConfig.git dest=/opt/ServerConfig accept_hostkey=yes version=master
 
 - name: Varnish Config | Symlink Default Varnish config file
-  file: src=/opt/ServerConfig/{{ environment }}.vcl dest=/etc/varnish/default.vcl state=link force=yes
+  file: src=/opt/ServerConfig/varnish/prod.vcl dest=/etc/varnish/default.vcl state=link force=yes
   tags: varnish
 
 - name: Varnish Config | Symlink Additional Varnish config files
-  file: src=/opt/ServerConfig/{{ item }}.vcl dest=/etc/varnish/{{ item }} state=link
+  file: src=/opt/ServerConfig/varnish/{{ item }}.vcl dest=/etc/varnish/{{ item }}.vcl state=link force=yes
   with_items:
     - drupal
     - geoip

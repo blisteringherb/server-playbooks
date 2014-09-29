@@ -17,5 +17,5 @@ image_id: c12e0e1e-0deb-4b63-be9e-2c7b98617cbe
 
 security_groups: default,varnish
 
-environment: production
-tier: production
+environment: prod
+tier: prod

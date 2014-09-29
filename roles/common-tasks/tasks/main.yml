@@ -12,7 +12,7 @@
 
 - name: Setup | authorized key upload
   authorized_key: user=dosomething
-    key="{{ lookup('template', 'templates/authorized-keys.j2') }}"
+    key="{{ lookup('file', '../templates/authorized-keys.j2') }}"
     path='/home/dosomething/.ssh/authorized_keys'
     manage_dir=no
   sudo: true
