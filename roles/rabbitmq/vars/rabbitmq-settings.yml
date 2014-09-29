@@ -1,0 +1,43 @@
+# Settings that are applied to new Rabbit servers spun up in OpenStack.
+
+---
+# Add names for each of your rabbit servers here.
+servers:
+  - rabbitQA1
+
+# This is the flavor id or flavor name for your new boxes.  Make sure the tenant
+# has sufficient resources to accomodate each of your new boxes.
+flavor: 1
+
+# This image ID is for the Ubuntu 14.04 LTS cloud image.  To use a different image
+# run nova image-list to get its id
+image_id: c12e0e1e-0deb-4b63-be9e-2c7b98617cbe
+
+# Add any security groups here.  Note that nova will fail if the security groups
+# don't already exist in the target tenant.
+security_groups: default,Jenkins-Tomcat
+
+# Metadata for how the box will be used.
+tier: qa
+type: rabbit
+
+rabbitmq_enabled: yes
+
+rabbitmq_plugins:                       # Ensure the plugins is installed
+  - rabbitmq_management
+  - rabbitmq_management_visualiser
+
+rabbitmq_users:                         # Ensure the users are added
+  - user: admin
+    password: admin
+    vhost: /
+    configure_priv: .*
+    read_priv: .*
+    write_priv: .*
+    tags: administrator
+
+rabbitmq_vhosts: []                     # Ensure the vhosts exist
+
+rabbitmq_users_remove:                  # Ensure the users are removed
+  - guest
+
