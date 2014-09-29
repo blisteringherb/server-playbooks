@@ -36,3 +36,15 @@
   roles:
     - common-tasks
     - Stouts.rabbitmq
+
+- name: Install supporting software
+  hosts: rabbit
+  user: ubuntu
+
+  roles:
+    - role: leonidas.nvm
+      nvm:
+        user: ubuntu
+        version: v0.17.0
+        node_version: '0.10'
+    - rabbitmq

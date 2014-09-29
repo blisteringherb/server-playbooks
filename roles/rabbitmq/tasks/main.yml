@@ -1,0 +1,15 @@
+---
+- name: General | Install required packages.
+  apt: name={{ item }} state=latest
+  tags: common
+  with_items:
+    - php5
+    - php5-imap
+    - php5-cli
+
+- name: Enable php imap
+  action: command php5enmod imap
+
+- name: Install forever
+  npm: name=forever global=yes
+  remote_user: ubuntu
