@@ -27,7 +27,7 @@
     - nova
 
 - name: Add rabbitmq to new servers
-  hosts: rabbitmq
+  hosts: rabbit
   user: ubuntu
   sudo: yes
   vars_files:

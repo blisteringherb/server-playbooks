@@ -26,3 +26,6 @@
     state=present"
   sudo: true
   tags: user
+
+- name: Clear apt cache
+  apt: update_cache=yes
