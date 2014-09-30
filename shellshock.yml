@@ -1,5 +1,5 @@
 ---
-- hosts: varnish
+- hosts: all
   user: ubuntu
   sudo: true
  
